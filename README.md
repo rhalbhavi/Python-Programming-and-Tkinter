@@ -1,6 +1,6 @@
 <div align="center">
     
-# Python Programming
+# Python and Tkinter GUI Programming
 
 </div>
 
