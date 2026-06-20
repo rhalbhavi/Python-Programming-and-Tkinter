@@ -13,13 +13,13 @@ const topicsData = {
         { name: "Dictionaries", path: "Dictionaries" }
     ],
     "Control Flow": [
-        { name: "If-Else-Elif Statements", path: "If-Else-Elif Statements" }, 
+        { name: "If-Else-Elif Statements", path: "If-Else-Elif" }, 
         { name: "For Loop", path: "For Loop" },
         { name: "While Loop", path: "While Loop" },
         { name: "Functions", path: "Functions" }
     ],
     "Error Handling": [
-        { name: "Try-Except-Finally Statements", path: "Try-Except-Finally Statements" }
+        { name: "Try-Except-Finally Statements", path: "Error Handling" }
     ],
     "GUI": [
         { name: "Tkinter", path: "Tkinter" }
@@ -29,11 +29,13 @@ const topicsData = {
 const subtopicTitle = document.getElementById('current-subtopic-title');
 const programsContainer = document.getElementById('programs-container');
 
+// Core Initialization Entry point
 document.addEventListener('DOMContentLoaded', () => {
     buildDropdownMenus();
+    setupInlineContentLinks();
 });
 
-// Generate and bind subtopic elements under respective lists
+// Generate and bind subtopic elements under respective dropdown lists
 function buildDropdownMenus() {
     const dropdownContainers = document.querySelectorAll('.dropdown-menu');
 
@@ -47,7 +49,7 @@ function buildDropdownMenus() {
             li.textContent = sub.name;
             li.setAttribute('data-path', sub.path);
             
-            // Content pull request event assignment
+            // Execute file pull when dropdown item is clicked
             li.addEventListener('click', () => {
                 subtopicTitle.textContent = `${topicKey} ➔ ${sub.name}`;
                 programsContainer.innerHTML = '<p class="placeholder-text">Loading repository data...</p>';
@@ -59,6 +61,30 @@ function buildDropdownMenus() {
     });
 }
 
+// Map the list anchor tags inside the home screen dashboard to trigger directory fetches
+function setupInlineContentLinks() {
+    const pageLinks = document.querySelectorAll('.page-link');
+    
+    pageLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const parentTopic = link.getAttribute('data-parent');
+            const targetPath = link.getAttribute('data-path');
+            const displayTitle = link.textContent;
+            
+            subtopicTitle.textContent = `${parentTopic} ➔ ${displayTitle}`;
+            programsContainer.innerHTML = '<p class="placeholder-text">Loading repository data...</p>';
+            
+            // Call dynamic directory fetch engine
+            fetchFolderContents(targetPath, programsContainer, false);
+            
+            // Smoothly snap screen viewpoint focus into code canvas workspace
+            programsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+}
+
+// Scans folders and dynamically prints code blocks or handles deeper subdirectories
 async function fetchFolderContents(folderPath, targetContainer, isSubFolder = false) {
     if (!isSubFolder) targetContainer.innerHTML = ''; 
 
@@ -70,16 +96,18 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
         
         const contents = await response.json();
         
+        // 1. Fetch and render all Python files
         const pyFiles = contents.filter(item => item.type === 'file' && item.name.endsWith('.py'));
         for (const file of pyFiles) {
             await fetchAndRenderCode(file.name, file.download_url, targetContainer);
         }
 
+        // 2. Discover nested subfolders and recurse into them
         const subDirs = contents.filter(item => item.type === 'dir');
         for (const dir of subDirs) {
             const subHeading = document.createElement('h3');
             subHeading.className = 'nested-folder-title';
-            subHeading.textContent = `# ${dir.name}`;
+            subHeading.textContent = `📁 Subfolder: ${dir.name}`;
             targetContainer.appendChild(subHeading);
 
             const nestedGroupContainer = document.createElement('div');
@@ -102,6 +130,7 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
     }
 }
 
+// Downloads raw source string vectors and inserts markdown block components
 async function fetchAndRenderCode(fileName, downloadUrl, containerElement) {
     try {
         const response = await fetch(downloadUrl);
@@ -117,6 +146,8 @@ async function fetchAndRenderCode(fileName, downloadUrl, containerElement) {
 
         const pre = document.createElement('pre');
         const code = document.createElement('code');
+        
+        // Wrapping contents inside precise markdown tags as configured
         code.textContent = `\`\`\`python\n${codeText}\n\`\`\``;
 
         pre.appendChild(code);
