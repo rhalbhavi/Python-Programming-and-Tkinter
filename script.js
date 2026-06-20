@@ -13,13 +13,13 @@ const topicsData = {
         { name: "Dictionaries", path: "Dictionaries" }
     ],
     "Control Flow": [
-        { name: "If-Else-Elif Statements", path: "If-Else-Elif" }, 
+        { name: "If-Else-Elif Statements", path: "If-Else-Elif Statements" }, 
         { name: "For Loop", path: "For Loop" },
         { name: "While Loop", path: "While Loop" },
         { name: "Functions", path: "Functions" }
     ],
     "Error Handling": [
-        { name: "Try-Except-Finally Statements", path: "Error Handling" }
+        { name: "Try-Except-Finally Statements", path: "Try-Except-Finally Statements" }
     ],
     "GUI": [
         { name: "Tkinter", path: "Tkinter" }
