@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Python Repository</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <header>
+        <h1>Ultimate Python Repository</h1>
+        <nav>
+            <ul id="topic-navigation">
+                <li><a href="#" class="nav-link active" data-topic="Core Foundations">🛠️ Core Foundations</a></li>
+                <li><a href="#" class="nav-link" data-topic="Data Structures">📊 Data Structures</a></li>
+                <li><a href="#" class="nav-link" data-topic="Control Flow">🔄 Control Flow & Logic</a></li>
+                <li><a href="#" class="nav-link" data-topic="Error Handling">⚠️ Error Handling</a></li>
+                <li><a href="#" class="nav-link" data-topic="GUI">🎨 GUI</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content-wrapper">
+        <section class="controls-section">
+            <label for="subtopic-select">Select Subtopic:</label>
+            <select id="subtopic-select">
+                <option value="">-- Choose a Subtopic --</option>
+            </select>
+        </section>
+
+        <section class="content-section">
+            <h2 id="current-subtopic-title">Select a topic and subtopic to view programs</h2>
+            <div id="programs-container">
+                <p class="placeholder-text">Please pick a subtopic from the dropdown above to load the Python scripts dynamically from GitHub.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
