@@ -29,17 +29,13 @@ body {
     );
     background-size: 100% 500px;
     animation: scanlineMove 25s linear infinite;
-    pointer-events: none; /* Allows interacting with things behind it */
+    pointer-events: none;
     z-index: 9999;
 }
 
 @keyframes scanlineMove {
-    0% {
-        background-position: 0 -500px;
-    }
-    100% {
-        background-position: 0 100vh;
-    }
+    0% { background-position: 0 -500px; }
+    100% { background-position: 0 100vh; }
 }
 
 /* --- Centered Heading and Top Navigation Bar --- */
@@ -48,16 +44,16 @@ header {
     padding: 2.5rem 1rem 1.5rem 1rem;
     display: flex;
     flex-direction: column;
-    align-items: center;       /* Centers everything horizontally */
+    align-items: center;       
     text-align: center;
     border-bottom: 2px solid #1c2541;
 }
 
 header h1 {
     font-family: 'Rubik Mono One', sans-serif;
-    color: #ffffff;            /* Heading Font Color White */
+    color: #ffffff;            
     font-size: 2.2rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     text-transform: uppercase;
     letter-spacing: -0.02em;
 }
@@ -68,72 +64,80 @@ nav {
 
 #topic-navigation {
     display: flex;
-    justify-content: center;   /* Centers topics inside navbar */
-    flex-wrap: wrap;
+    justify-content: center;   
     list-style: none;
-    gap: 1rem;
+    gap: 2rem;
 }
 
-.nav-link {
+/* Individual Topic List Items acting as Dropdown Wrappers */
+.nav-item {
+    position: relative;
+    padding-bottom: 1rem; /* Padding buffer space to bridge gap to dropdown */
+}
+
+.nav-topic-title {
     font-family: 'Titillium Web', sans-serif;
+    font-size: 20px;            /* Required size rule */
     font-weight: 600;
-    color: #a8a8b3;            /* Subtle gray unselected color */
-    text-decoration: none;
-    padding: 0.5rem 1.2rem;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    color: #a8a8b3;            
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
 }
 
-.nav-link:hover, .nav-link.active {
-    color: #ffffff;            /* Text Active White */
-    background-color: #1c2541; /* Highlights background choice */
-    border-color: #4df3a9;     /* Accent borders for visual cues */
+/* Dynamic Hover Color Transitions with no explicit borders */
+.nav-item:hover .nav-topic-title {
+    color: #ffffff;
+}
+
+/* --- Hover Menu Dropdown Element Trees --- */
+.dropdown-menu {
+    display: none;             /* Keeps dropdown invisible by default */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #101014; /* Pure dark matching shade */
+    min-width: 260px;
+    list-style: none;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    border: 1px solid #1c2541;
+    z-index: 1000;
+    padding: 0.5rem 0;
+    text-align: left;
+}
+
+/* Displays dropdown immediately upon cursor hover */
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    font-size: 20px;           /* Required dropdown item text size rule */
+    font-weight: 400;
+    color: #a8a8b3;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.dropdown-item:hover {
+    color: #4df3a9;
+    background-color: #1c2541;
 }
 
 /* --- Centered Black Content Box Layout --- */
 .main-content-wrapper {
-    background-color: #000000; /* Solid Black Content Box */
+    background-color: #000000; 
     max-width: 1150px;
-    margin: 3rem auto;         /* Centers the container, leaving gaps on top/bottom */
+    margin: 3rem auto;         
     padding: 2.5rem;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     border: 1px solid #1c2541;
-    
-    /* Ensures gaps on left/right edges for screens smaller than max-width */
     width: calc(100% - 3rem); 
-}
-
-/* Controls (Dropdown section) */
-.controls-section {
-    background-color: #0b132b; /* Contrast dark blue inside black main body container */
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    border: 1px solid #1c2541;
-}
-
-.controls-section label {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #ffffff;
-}
-
-select {
-    font-family: 'Titillium Web', sans-serif;
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #000000;
-    color: #ffffff;
-    border: 2px solid #4df3a9;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-    min-width: 260px;
 }
 
 /* Inside Page Content Headers */
@@ -145,7 +149,7 @@ select {
     padding-left: 0.75rem;
 }
 
-/* Code block setups inside the main body container */
+/* Code block layouts */
 .program-block {
     background-color: #0b132b;
     border-radius: 8px;
@@ -165,7 +169,7 @@ select {
 pre {
     padding: 1.5rem;
     overflow-x: auto;
-    background-color: #050914; /* Deep block dark blue variant for internal code block structure */
+    background-color: #050914; 
     font-family: 'Courier New', Courier, monospace;
     color: #e1e1e6;
 }
@@ -184,18 +188,17 @@ code {
     color: #f75a68;
 }
 
-/* Responsiveness Adaptations */
-@media(max-width: 768px) {
-    .main-content-wrapper {
-        padding: 1.5rem;
-        margin: 1.5rem auto;
-        width: calc(100% - 1.5rem);
-    }
-    .controls-section {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    select {
-        width: 100%;
-    }
+.nested-folder-title {
+    font-size: 1.1rem;
+    color: #4df3a9;
+    margin: 2.5rem 0 1rem 0;
+    text-transform: uppercase;
+    border-bottom: 1px dashed #1c2541;
+    padding-bottom: 0.5rem;
+}
+
+.nested-group-container {
+    padding-left: 1rem;
+    border-left: 2px dashed #1c2541;
+    margin-bottom: 2rem;
 }
