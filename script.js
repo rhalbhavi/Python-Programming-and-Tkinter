@@ -79,7 +79,7 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
         for (const dir of subDirs) {
             const subHeading = document.createElement('h3');
             subHeading.className = 'nested-folder-title';
-            subHeading.textContent = `📁 Subfolder: ${dir.name}`;
+            subHeading.textContent = `# ${dir.name}`;
             targetContainer.appendChild(subHeading);
 
             const nestedGroupContainer = document.createElement('div');
