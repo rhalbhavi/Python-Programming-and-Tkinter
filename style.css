@@ -7,9 +7,8 @@
 
 body {
     font-family: 'Titillium Web', sans-serif;
-    font-size: 18px;
-    background-color: #0b132b;
-    color: #ffffff;
+    background-color: #0b132b; /* Dark Blue Website Background */
+    color: #ffffff;            /* Global Text White */
     line-height: 1.6;
     position: relative;
     min-height: 100vh;
@@ -70,15 +69,14 @@ nav {
     gap: 2rem;
 }
 
-/* Individual Topic List Items acting as Dropdown Wrappers */
 .nav-item {
     position: relative;
-    padding-bottom: 1rem; /* Padding buffer space to bridge gap to dropdown */
+    padding-bottom: 1rem; 
 }
 
 .nav-topic-title {
     font-family: 'Titillium Web', sans-serif;
-    font-size: 20px;            /* Required size rule */
+    font-size: 20px;            
     font-weight: 600;
     color: #a8a8b3;            
     cursor: pointer;
@@ -86,19 +84,18 @@ nav {
     transition: color 0.3s ease;
 }
 
-/* Dynamic Hover Color Transitions with no explicit borders */
 .nav-item:hover .nav-topic-title {
     color: #ffffff;
 }
 
 /* --- Hover Menu Dropdown Element Trees --- */
 .dropdown-menu {
-    display: none;             /* Keeps dropdown invisible by default */
+    display: none;             
     position: absolute;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #101014; /* Pure dark matching shade */
+    background-color: #101014; 
     min-width: 260px;
     list-style: none;
     border-radius: 6px;
@@ -109,13 +106,12 @@ nav {
     text-align: left;
 }
 
-/* Displays dropdown immediately upon cursor hover */
 .nav-item:hover .dropdown-menu {
     display: block;
 }
 
 .dropdown-item {
-    font-size: 20px;           /* Required dropdown item text size rule */
+    font-size: 20px;           
     font-weight: 400;
     color: #a8a8b3;
     padding: 0.6rem 1.2rem;
@@ -132,9 +128,9 @@ nav {
 /* --- Balanced Two-Column Flex Layout --- */
 .dashboard-split-container {
     display: flex;
-    max-width: 1200px;         /* Limits total stretch to group elements tightly */
-    margin: 3rem auto;         /* Centers the combined container horizontally on screen */
-    padding: 0 1.5rem;         /* Equal side padding to ensure safe window spacing */
+    max-width: 1200px;         
+    margin: 3rem auto;         
+    padding: 0 1.5rem;         
     gap: 2rem;
     align-items: flex-start;
     width: 100%;
@@ -142,16 +138,16 @@ nav {
 
 /* --- Dynamic Home View Layout States --- */
 .dashboard-split-container.home-view .sidebar-index-container {
-    display: none;             /* Drops sidebar completely on Overview index */
+    display: none;             
 }
 
 .dashboard-split-container.home-view .main-content-wrapper {
-    width: 100%;               /* Expands main dashboard fully if layout is set to home view */
+    width: 100%;               
 }
 
 /* --- Left Sidebar Platform Styling --- */
 .sidebar-index-container {
-    width: 28%;                /* Proportional scale allocation */
+    width: 28%;                
     background-color: #000000;
     border: 1px solid #1c2541;
     border-radius: 12px;
@@ -196,7 +192,6 @@ nav {
     background-color: #1c2541;
 }
 
-/* Rotation arrow animation toggles */
 .arrow-icon {
     font-size: 0.8rem;
     transition: transform 0.2s ease;
@@ -219,7 +214,6 @@ nav {
     color: #ffffff;
 }
 
-/* Nested elements underneath sidebar groups */
 .sidebar-nested-sublist {
     list-style: none;
     padding-left: 1.5rem;
@@ -246,7 +240,7 @@ nav {
 
 /* --- Main Content Hub Box Layout (Right Side) --- */
 .main-content-wrapper {
-    width: 72%;                /* Balanced spacing paired next to the left sidebar */
+    width: 72%;                
     background-color: #000000; 
     padding: 2.5rem;
     border-radius: 12px;
@@ -254,7 +248,6 @@ nav {
     border: 1px solid #1c2541;
 }
 
-/* Inside Page Content Headers */
 .content-section h2 {
     font-size: 1.4rem;
     margin-bottom: 2rem;
@@ -263,7 +256,6 @@ nav {
     padding-left: 0.75rem;
 }
 
-/* Code block layouts */
 .program-block {
     background-color: #0b132b;
     border-radius: 8px;
@@ -317,7 +309,7 @@ code {
     margin-bottom: 2rem;
 }
 
-/* List hyperlinks styling definitions */
+/* List hyperlinks styling */
 ul li a {
     color: #4df3a9;
 }
@@ -326,7 +318,6 @@ ul li a:hover {
     color: white;
 }
 
-/* Override clean markdown text color inside preview wrappers */
 .markdown-body-render {
     color: #e1e1e6;
     font-family: 'Titillium Web', sans-serif;
@@ -344,7 +335,6 @@ ul li a:hover {
     font-size: 1.1rem;
 }
 
-/* Ensure clean display overrides on active themes */
 pre[class*="language-"] {
     background: #050914 !important;
     border: none !important;
