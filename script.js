@@ -2,28 +2,43 @@ const REPO_OWNER = 'rhalbhavi';
 const REPO_NAME = 'Python-Programming-and-Tkinter';
 
 const topicsData = {
-    "Core Foundations": [
-        { name: "Keywords and Identifiers", path: "Keywords and Identifiers", preferredOrder: ["Python Keywords.png", "Python Identifiers.md"] },
-        { name: "Strings", path: "Strings", preferredOrder: ["Initializing Strings", "String Methods", "Examples"] }
-    ],
-    "Data Structures": [
-        { name: "Lists", path: "Lists", preferredOrder: ["Initializing Lists", "Empty List", "Nested Tuple", "List Methods", "Examples"] },
-        { name: "Tuples", path: "Tuples", preferredOrder: ["Initializing Tuples", "Nested Tuple", "Tuple Methods", "Examples"] },
-        { name: "Sets", path: "Sets", preferredOrder: ["Initializing Sets", "Set Methods", "Set Operations"] },
-        { name: "Dictionaries", path: "Dictionaries", preferredOrder: ["Initializing Dictionaries", "Dictionary Methods", "Examples"] }
-    ],
-    "Control Flow": [
-        { name: "If-Else-Elif Statements", path: "If-Else-Elif", preferredOrder: ["if-else", "Nested if-else", "if-else-elif"] }, 
-        { name: "For Loop", path: "For Loop", preferredOrder: ["General Syntax", "for Loop with break and continue statements", "Nested for Loop", "Examples", "for i in Range, List, String"] },
-        { name: "While Loop", path: "While Loop", preferredOrder: ["General Syntax", "while Loop with break Statement", "Examples"] },
-        { name: "Functions", path: "Functions", preferredOrder: ["Local and Global Variables.py", "Namespaces.py", "def Functions", "lambda Functions", "Recursive Functions", "Built-in Functions"] }
-    ],
-    "Error Handling": [
-        { name: "Try-Except-Finally Statements", path: "Error Handling", preferredOrder: ["Built-in Exceptions.png", "try-except-finally", "try-except-finally with else", "Multiple except Statements in Single except Block", "Error Handling"] }
-    ],
-    "GUI": [
-        { name: "Tkinter", path: "Tkinter", preferredOrder: ["Create a Basic Tkinter Application", "Widgets", "Methods", "Geometry Manager Properties", "Event Handling", "Cursors", "Examples"] }
-    ]
+    "Core Foundations": {
+        mdFile: "Core Foundations.md",
+        subtopics: [
+            { name: "Keywords and Identifiers", path: "Keywords and Identifiers", preferredOrder: ["Python Keywords.png", "Python Identifiers.md"] },
+            { name: "Strings", path: "Strings", preferredOrder: ["Initializing Strings", "String Methods", "Examples"] }
+        ]
+    },
+    "Data Structures": {
+        mdFile: "Data Structures.md",
+        subtopics: [
+            { name: "Lists", path: "Lists", preferredOrder: ["Initializing Lists", "Empty List", "Nested Tuple", "List Methods", "Examples"] },
+            { name: "Tuples", path: "Tuples", preferredOrder: ["Initializing Tuples", "Nested Tuple", "Tuple Methods", "Examples"] },
+            { name: "Sets", path: "Sets", preferredOrder: ["Initializing Sets", "Set Methods", "Set Operations"] },
+            { name: "Dictionaries", path: "Dictionaries", preferredOrder: ["Initializing Dictionaries", "Dictionary Methods", "Examples"] }
+        ]
+    },
+    "Control Flow": {
+        mdFile: "Control Flow.md",
+        subtopics: [
+            { name: "If-Else-Elif Statements", path: "If-Else-Elif", preferredOrder: ["if-else", "Nested if-else", "if-else-elif"] }, 
+            { name: "For Loop", path: "For Loop", preferredOrder: ["General Syntax", "for Loop with break and continue statements", "Nested for Loop", "Examples", "for i in Range, List, String"] },
+            { name: "While Loop", path: "While Loop", preferredOrder: ["General Syntax", "while Loop with break Statement", "Examples"] },
+            { name: "Functions", path: "Functions", preferredOrder: ["Local and Global Variables.py", "Namespaces.py", "def Functions", "lambda Functions", "Recursive Functions", "Built-in Functions"] }
+        ]
+    },
+    "Error Handling": {
+        mdFile: "Error Handling.md",
+        subtopics: [
+            { name: "Try-Except-Finally Statements", path: "Error Handling", preferredOrder: ["Built-in Exceptions.png", "try-except-finally", "try-except-finally with else", "Multiple except Statements in Single except Block", "Error Handling"] }
+        ]
+    },
+    "GUI": {
+        mdFile: "Tkinter.md",
+        subtopics: [
+            { name: "Tkinter", path: "Tkinter", preferredOrder: ["Create a Basic Tkinter Application", "Widgets", "Methods", "Geometry Manager Properties", "Event Handling", "Cursors", "Examples"] }
+        ]
+    }
 };
 
 const nestedFolderCustomOrders = {
@@ -40,20 +55,22 @@ const sidebarTreeWrapper = document.getElementById('sidebar-tree-wrapper');
 document.addEventListener('DOMContentLoaded', () => {
     buildDropdownMenus();
     setupInlineContentLinks();
+    setupParentTopicLinks();
 });
 
 function buildDropdownMenus() {
     const dropdownContainers = document.querySelectorAll('.dropdown-menu');
     dropdownContainers.forEach(menu => {
         const topicKey = menu.getAttribute('data-topic');
-        const subtopics = topicsData[topicKey] || [];
+        const subtopics = topicsData[topicKey].subtopics || [];
 
         subtopics.forEach(sub => {
             const li = document.createElement('li');
             li.className = 'dropdown-item';
             li.textContent = sub.name;
             
-            li.addEventListener('click', () => {
+            li.addEventListener('click', (e) => {
+                e.stopPropagation(); // Stop parent triggers
                 triggerContentLoad(topicKey, sub);
             });
             menu.appendChild(li);
@@ -67,7 +84,7 @@ function setupInlineContentLinks() {
             e.preventDefault();
             const parentTopic = link.getAttribute('data-parent');
             const targetPath = link.getAttribute('data-path');
-            const subtopics = topicsData[parentTopic] || [];
+            const subtopics = topicsData[parentTopic].subtopics || [];
             const sub = subtopics.find(s => s.path === targetPath);
             
             if (sub) triggerContentLoad(parentTopic, sub);
@@ -75,19 +92,82 @@ function setupInlineContentLinks() {
     });
 }
 
-// Master orchestration engine updating headers, content spaces, and removing home layout view constraints
-function triggerContentLoad(topicKey, subtopicObj) {
-    // Strips away home-view helper tag to dynamically bring side navigation panel into frame
-    const layoutContainer = document.getElementById('main-split-layout');
-    if (layoutContainer) {
-        layoutContainer.classList.remove('home-view');
+// NEW: Wire event triggers when clicking the master category title itself in navbar
+function setupParentTopicLinks() {
+    document.querySelectorAll('.nav-topic-title').forEach(titleSpan => {
+        titleSpan.addEventListener('click', () => {
+            const topicKey = titleSpan.getAttribute('data-topic');
+            triggerParentTopicLoad(topicKey);
+        });
+    });
+}
+
+// NEW: Loads full Parent layout (Parent markdown file + merges all subtopic contents continuously)
+async function triggerParentTopicLoad(topicKey) {
+    document.getElementById('main-split-layout').classList.remove('home-view');
+    subtopicTitle.textContent = `${topicKey} (Full Overview)`;
+    programsContainer.innerHTML = '<p class="placeholder-text">Loading multi-tier parent repository streams...</p>';
+    sidebarTreeWrapper.innerHTML = '';
+
+    const parentObj = topicsData[topicKey];
+    const rootUL = document.createElement('ul');
+    rootUL.className = 'sidebar-list';
+    sidebarTreeWrapper.appendChild(rootUL);
+
+    // 1. Fetch parent markdown overview header documentation file if declared
+    if (parentObj.mdFile) {
+        const safeId = generateSafeElementId(parentObj.mdFile);
+        
+        const sideLI = document.createElement('li');
+        sideLI.className = 'sidebar-item';
+        sideLI.innerHTML = `<a href="#${safeId}" class="sidebar-sub-link" style="color: #4df3a9;">📖 ${topicKey} Overview</a>`;
+        rootUL.appendChild(sideLI);
+
+        const parentMdUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/master/${parentObj.mdFile}`;
+        programsContainer.innerHTML = ''; // reset loading text
+        await fetchAndRenderCode(parentObj.mdFile, parentMdUrl, programsContainer, safeId);
+    } else {
+        programsContainer.innerHTML = '';
     }
 
+    // 2. Loop continuously and inject all subsections sequentially
+    for (const sub of parentObj.subtopics) {
+        const parentSafeId = generateSafeElementId(sub.path);
+
+        // Append subsection breaker inside sidebar
+        const masterLI = document.createElement('li');
+        masterLI.className = 'sidebar-item';
+        masterLI.style.marginTop = "1rem";
+        masterLI.innerHTML = `<div class="sidebar-header-row"><span class="arrow-icon expanded">▼</span><a href="#${parentSafeId}" class="sidebar-link" style="color: #ffffff;">💡 ${sub.name}</a></div>`;
+        
+        const subUL = document.createElement('ul');
+        subUL.className = 'sidebar-nested-sublist show';
+        masterLI.appendChild(subUL);
+        rootUL.appendChild(masterLI);
+
+        // Append subsection breaker inside the page
+        const subTopicDivider = document.createElement('h2');
+        subTopicDivider.id = parentSafeId;
+        subTopicDivider.className = 'nested-folder-title';
+        subTopicDivider.style.fontSize = '1.6rem';
+        subTopicDivider.style.borderBottom = '3px solid #4df3a9';
+        subTopicDivider.textContent = sub.name;
+        programsContainer.appendChild(subTopicDivider);
+
+        const containerWrapper = document.createElement('div');
+        programsContainer.appendChild(containerWrapper);
+
+        // Fetch using recursive method passing active structural layouts
+        await fetchFolderContents(sub.path, containerWrapper, true, sub.preferredOrder || [], subUL);
+    }
+}
+
+function triggerContentLoad(topicKey, subtopicObj) {
+    document.getElementById('main-split-layout').classList.remove('home-view');
     subtopicTitle.textContent = `${topicKey} ➔ ${subtopicObj.name}`;
     programsContainer.innerHTML = '<p class="placeholder-text">Loading repository data...</p>';
     sidebarTreeWrapper.innerHTML = '<p class="placeholder-text">Building index layout...</p>';
     
-    // Core payload fetch execution
     fetchFolderContents(subtopicObj.path, programsContainer, false, subtopicObj.preferredOrder || []);
 }
 
@@ -113,9 +193,6 @@ function applyCustomSorting(itemsArray, rulesArray) {
     });
 }
 
-/**
- * Dynamic content processor with automatic multi-level sidebar menu aggregation.
- */
 async function fetchFolderContents(folderPath, targetContainer, isSubFolder = false, orderRules = [], currentSidebarParentUL = null) {
     if (!isSubFolder) {
         targetContainer.innerHTML = '';
@@ -130,7 +207,6 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
         const rawContents = await response.json();
         const sortedContents = applyCustomSorting(rawContents, orderRules);
 
-        // Build base layout UL list frame if this is the root level page
         if (!isSubFolder) {
             const rootUL = document.createElement('ul');
             rootUL.className = 'sidebar-list';
@@ -146,13 +222,11 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 const lowerName = item.name.toLowerCase();
                 if (lowerName.endsWith('.py') || lowerName.endsWith('.md') || lowerName.endsWith('.png')) {
                     
-                    // Create Anchor link index node entry inside Left Sidebar container
                     const li = document.createElement('li');
                     li.className = 'sidebar-item';
                     li.innerHTML = `<a href="#${safeId}" class="sidebar-sub-link">📄 ${displayName}</a>`;
                     currentSidebarParentUL.appendChild(li);
 
-                    // Fetch resource content fragments and mount inside right side viewport 
                     if (lowerName.endsWith('.py') || lowerName.endsWith('.md')) {
                         await fetchAndRenderCode(item.name, item.download_url, targetContainer, safeId);
                     } else if (lowerName.endsWith('.png')) {
@@ -161,7 +235,6 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 }
             } 
             else if (item.type === 'dir') {
-                // 1. Sidebar Accordion Component generation
                 const masterLI = document.createElement('li');
                 masterLI.className = 'sidebar-item';
                 
@@ -172,7 +245,6 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 const subUL = document.createElement('ul');
                 subUL.className = 'sidebar-nested-sublist';
                 
-                // Click handler assignments to control accordion rotation states
                 headerRow.addEventListener('click', (e) => {
                     const arrow = headerRow.querySelector('.arrow-icon');
                     if (arrow) arrow.classList.toggle('expanded');
@@ -183,7 +255,6 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 masterLI.appendChild(subUL);
                 currentSidebarParentUL.appendChild(masterLI);
 
-                // 2. Main content block folder division node initialization
                 const subHeading = document.createElement('h3');
                 subHeading.className = 'nested-folder-title';
                 subHeading.id = safeId;
@@ -195,8 +266,6 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 targetContainer.appendChild(nestedGroupContainer);
 
                 const nextFolderRules = nestedFolderCustomOrders[item.name] || [];
-                
-                // Recurse down deep directory paths
                 await fetchFolderContents(item.path, nestedGroupContainer, true, nextFolderRules, subUL);
             }
         }
