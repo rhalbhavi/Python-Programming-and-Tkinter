@@ -3,6 +3,6 @@
 # Initialize List
 List1 = ["carrot", "potato", "lettuce", "beans", "corn", "capsicum"]
 
-# print multiple copies of the same list
-print (List1.copy())
+# List.copy() - Make copy of list
+print (List1.copy()) # Print multiple copies of the same list
 print (List1.copy())
