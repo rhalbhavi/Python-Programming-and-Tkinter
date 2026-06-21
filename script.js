@@ -1,7 +1,7 @@
 const REPO_OWNER = 'rhalbhavi';
 const REPO_NAME = 'Python-Programming-and-Tkinter';
 
-// Schema layout configuration mapping parent groups to subtopic folders
+// Content Layout map linking the navbar buttons to repository folders
 const topicsData = {
     "Core Foundations": {
         mdFile: "Core Foundations.md",
@@ -54,25 +54,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupInlineContentLinks();
     setupParentTopicLinks();
     
-    // NEW: Load the pre-built flat manifest mapping via jsDelivr CDN on initialization
+    // Warm up layout memory instantly with 0 API cost via the local manifest file asset
     await initializeRepositoryTreeMap();
     
     checkUrlHashRoute();
 });
 
-// REDESIGNED INITIALIZER: Fetches static manifest file via the CDN (0 GitHub API usage)
 async function initializeRepositoryTreeMap() {
     try {
         const cdnManifestUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@master/tree_manifest.json`;
         const response = await fetch(cdnManifestUrl);
-        
-        if (!response.ok) throw new Error("Could not find or load tree_manifest.json on your repository root.");
-        
+        if (!response.ok) throw new Error("Could not load tree_manifest.json from root.");
         globalRepositoryTreeFlatArray = await response.json();
-        console.log("Success: Clean production static blueprint map loaded.");
     } catch (err) {
-        console.error("Static build matrix compilation fallback failure:", err);
-        programsContainer.innerHTML = `<p class="error-text">Initialization Error: Make sure tree_manifest.json is generated and pushed to the root of your GitHub repository.</p>`;
+        console.error("Manifest compilation failure:", err);
     }
 }
 
@@ -85,7 +80,6 @@ function buildDropdownMenus() {
             const li = document.createElement('li');
             li.className = 'dropdown-item';
             li.textContent = sub.name;
-            
             li.addEventListener('click', (e) => {
                 e.stopPropagation();
                 window.location.hash = `${encodeURIComponent(topicKey)}:${encodeURIComponent(sub.path)}`;
@@ -102,7 +96,6 @@ function setupInlineContentLinks() {
             const parentTopic = link.getAttribute('data-parent');
             let targetPath = link.getAttribute('data-path');
             
-            // Normalize path string differences if index naming rules shift
             if (targetPath === "If-Else-Elif") targetPath = "If-Else-Elif Statements";
             if (targetPath === "Error Handling") targetPath = "Try-Except-Finally Statements";
             
@@ -131,9 +124,18 @@ async function checkUrlHashRoute() {
         return; 
     }
 
+    // Interceptor: Prevents hyperlink latency by letting the layout render fully before attempting scroll jumps
     if (currentHash.startsWith('section_')) {
         const element = document.getElementById(currentHash);
-        if (element) element.scrollIntoView({ behavior: 'smooth' });
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            // Delay briefly if code containers are still loading in from the CDN thread pipeline
+            setTimeout(() => {
+                const retryElement = document.getElementById(currentHash);
+                if (retryElement) retryElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
         return;
     }
 
@@ -224,28 +226,22 @@ async function triggerContentLoad(topicKey, subtopicObj) {
 }
 
 function cleanDisplayName(rawName) {
-    return rawName.replace(/\.(py|md|png|jpg|jpeg)$/i, '');
+    return rawName.replace(/\.(py|md|png|jpg|jpeg)$/i, '').replace(/^\d+_/g, '');
 }
 
 function generateSafeElementId(rawString) {
     return 'section_' + rawString.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
 }
 
-/**
- * PRODUCTION-GRADE PARSING ENGINE: Filters and resolves elements entirely in browser memory
- * by reading the pre-compiled layout mapping array data. Pulls code safely via CDN channels.
- */
 async function resolveAndBuildContent(folderPath, targetContainer, currentSidebarUL, preferredOrder = []) {
     const prefix = folderPath + "/";
     
-    // Filter matching children elements inside this specific folder track layer
     let immediateContents = globalRepositoryTreeFlatArray.filter(item => {
         if (!item.path.startsWith(prefix)) return false;
         const relativePart = item.path.substring(prefix.length);
         return !relativePart.includes('/');
     });
 
-    // Sort current layer elements to match your exact preferredOrder sequences
     if (preferredOrder.length > 0) {
         immediateContents.sort((a, b) => {
             const nameA = a.path.split('/').pop();
@@ -269,7 +265,8 @@ async function resolveAndBuildContent(folderPath, targetContainer, currentSideba
         const displayName = cleanDisplayName(itemRealName);
         const cdnUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@master/${encodeURIComponent(item.path)}`;
 
-        if (item.type === "blob") { // File layout handler
+        if (item.type === "blob") { 
+            // Standalone File Layout Node Handler
             const lowerName = itemRealName.toLowerCase();
             if (lowerName.endsWith('.py') || lowerName.endsWith('.md') || lowerName.endsWith('.png')) {
                 
@@ -285,39 +282,63 @@ async function resolveAndBuildContent(folderPath, targetContainer, currentSideba
                 }
             }
         } 
-        else if (item.type === "tree") { // Subfolder layout handler
-            const masterLI = document.createElement('li');
-            masterLI.className = 'sidebar-item';
+        else if (item.type === "tree") { 
+            // Query lookahead to identify how many physical file assets live inside this folder level
+            const internalChildren = globalRepositoryTreeFlatArray.filter(child => child.path.startsWith(item.path + "/"));
             
-            const headerRow = document.createElement('div');
-            headerRow.className = 'sidebar-header-row';
-            headerRow.innerHTML = `<span class="arrow-icon">▶</span><a href="#${safeId}" class="sidebar-link">📁 ${displayName}</a>`;
-            
-            const subUL = document.createElement('ul');
-            subUL.className = 'sidebar-nested-sublist';
-            
-            headerRow.addEventListener('click', () => {
-                const arrow = headerRow.querySelector('.arrow-icon');
-                if (arrow) arrow.classList.toggle('expanded');
-                subUL.classList.toggle('show');
-            });
+            // CONDITION: If subfolder houses exactly one solitary program asset, flatten it and use the paper icon
+            if (internalChildren.length === 1 && internalChildren[0].type === "blob") {
+                const singleItem = internalChildren[0];
+                const singleRealName = singleItem.path.split('/').pop();
+                const singleSafeId = generateSafeElementId(singleItem.path);
+                const singleDisplayName = cleanDisplayName(singleRealName);
+                const singleCdnUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@master/${encodeURIComponent(singleItem.path)}`;
 
-            masterLI.appendChild(headerRow);
-            masterLI.appendChild(subUL);
-            currentSidebarUL.appendChild(masterLI);
+                const li = document.createElement('li');
+                li.className = 'sidebar-item';
+                li.innerHTML = `<a href="#${singleSafeId}" class="sidebar-sub-link">📄 ${singleDisplayName}</a>`;
+                currentSidebarUL.appendChild(li);
 
-            const subHeading = document.createElement('h3');
-            subHeading.className = 'nested-folder-title';
-            subHeading.id = safeId;
-            subHeading.textContent = `📁 ${displayName}`;
-            targetContainer.appendChild(subHeading);
+                if (singleRealName.toLowerCase().endsWith('.py') || singleRealName.toLowerCase().endsWith('.md')) {
+                    await fetchAndRenderCode(singleRealName, singleCdnUrl, targetContainer, singleSafeId);
+                } else {
+                    renderImageBlock(singleRealName, singleCdnUrl, targetContainer, singleSafeId);
+                }
+            } else {
+                // CONDITION: If subfolder houses multiple files, keep the standard dropdown folder icon logic
+                const masterLI = document.createElement('li');
+                masterLI.className = 'sidebar-item';
+                
+                const headerRow = document.createElement('div');
+                headerRow.className = 'sidebar-header-row';
+                headerRow.innerHTML = `<span class="arrow-icon">▶</span><a href="#${safeId}" class="sidebar-link">📁 ${displayName}</a>`;
+                
+                const subUL = document.createElement('ul');
+                subUL.className = 'sidebar-nested-sublist';
+                
+                headerRow.addEventListener('click', () => {
+                    const arrow = headerRow.querySelector('.arrow-icon');
+                    if (arrow) arrow.classList.toggle('expanded');
+                    subUL.classList.toggle('show');
+                });
 
-            const nestedGroupContainer = document.createElement('div');
-            nestedGroupContainer.className = 'nested-group-container';
-            targetContainer.appendChild(nestedGroupContainer);
+                masterLI.appendChild(headerRow);
+                masterLI.appendChild(subUL);
+                currentSidebarUL.appendChild(masterLI);
 
-            // Recurse downwards internally inside the subfolder using the tree blueprint data array
-            await resolveAndBuildContent(item.path, nestedGroupContainer, subUL, []);
+                const subHeading = document.createElement('h3');
+                subHeading.className = 'nested-folder-title';
+                subHeading.id = safeId;
+                subHeading.textContent = `📁 ${displayName}`;
+                targetContainer.appendChild(subHeading);
+
+                const nestedGroupContainer = document.createElement('div');
+                nestedGroupContainer.className = 'nested-group-container';
+                targetContainer.appendChild(nestedGroupContainer);
+
+                // Recursively drill down inside multi-file subfolders
+                await resolveAndBuildContent(item.path, nestedGroupContainer, subUL, []);
+            }
         }
     }
 }
@@ -362,7 +383,6 @@ async function fetchAndRenderCode(fileName, downloadUrl, containerElement, eleme
     }
 }
 
-// Renders the repository reference diagrams with sharp corners
 function renderImageBlock(fileName, downloadUrl, containerElement, elementId) {
     const block = document.createElement('div');
     block.className = 'program-block repo-image-block';
