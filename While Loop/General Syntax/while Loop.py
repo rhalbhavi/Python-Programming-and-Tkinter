@@ -1,4 +1,4 @@
-### While Loop ###
+### while Loop ###
 
 ## Print first 10 natural numbers 1-10 ##
 
