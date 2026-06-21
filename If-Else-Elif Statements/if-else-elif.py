@@ -1,4 +1,6 @@
-## if-else-elif Statement ##
+### if-else-elif Statement ###
+
+## Print Lowest of 2 Numbers
 
 n1 = int(input("Enter a number: "))
 n2 = int(input("Enter another number: "))
