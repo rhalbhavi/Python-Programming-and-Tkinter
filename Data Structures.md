@@ -2,6 +2,8 @@
 
 **Data structures are the specialized containers used to organize, store, manipulate, and access complex datasets efficiently. Selecting the correct memory model directly impacts your runtime complexity, search speeds, and optimization boundaries.**
 
+<br>
+
 ---
 
 ### 🗂️ Core Data Structures
@@ -12,6 +14,8 @@
 | **Tuples** | `()` | Ordered | Allows Duplicates | Immutable |
 | **Sets** | `{}` | Unordered | Enforces Unique Keys | Mutable |
 | **Dictionaries**| `{K: V}`| Ordered (3.7+) | Unique Keys Only | Mutable |
+
+<br>
 
 ---
 
