@@ -128,102 +128,29 @@ nav {
     background-color: #1c2541;
 }
 
-/* --- Centered Black Content Box Layout --- */
-.main-content-wrapper {
-    background-color: #000000; 
-    max-width: 1150px;
-    margin: 3rem auto;         
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    border: 1px solid #1c2541;
-    width: calc(100% - 3rem); 
-}
-
-/* Inside Page Content Headers */
-.content-section h2 {
-    font-size: 1.4rem;
-    margin-bottom: 2rem;
-    color: #ffffff;
-    border-left: 5px solid #4df3a9;
-    padding-left: 0.75rem;
-}
-
-/* Code block layouts */
-.program-block {
-    background-color: #0b132b;
-    border-radius: 8px;
-    margin-bottom: 2.5rem;
-    border: 1px solid #1c2541;
-    overflow: hidden;
-}
-
-.program-header {
-    background-color: #1c2541;
-    padding: 0.85rem 1.5rem;
-    font-weight: 600;
-    color: #4df3a9;
-    font-size: 1.05rem;
-}
-
-pre {
-    padding: 1.5rem;
-    overflow-x: auto;
-    background-color: #050914; 
-    font-family: 'Courier New', Courier, monospace;
-    color: #e1e1e6;
-}
-
-code {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-
-.placeholder-text {
-    color: #a8a8b3;
-    font-style: italic;
-}
-
-.error-text {
-    color: #f75a68;
-}
-
-.nested-folder-title {
-    font-size: 1.1rem;
-    color: #4df3a9;
-    margin: 2.5rem 0 1rem 0;
-    text-transform: uppercase;
-    border-bottom: 1px dashed #1c2541;
-    padding-bottom: 0.5rem;
-}
-
-.nested-group-container {
-    padding-left: 1rem;
-    border-left: 2px dashed #1c2541;
-    margin-bottom: 2rem;
-}
-
-/* List hyperlinks */
-ul li a {
-  color: #4df3a9;
-}
-
-ul li a:hover {
-  color: white;
-}
-
+/* --- Balanced Two-Column Flex Layout --- */
 .dashboard-split-container {
     display: flex;
-    max-width: 1400px;
-    margin: 3rem auto;
-    padding: 0 1.5rem;
+    max-width: 1200px;         /* Limits total stretch to group elements tightly */
+    margin: 3rem auto;         /* Centers the combined container horizontally on screen */
+    padding: 0 1.5rem;         /* Equal side padding to ensure safe window spacing */
     gap: 2rem;
     align-items: flex-start;
+    width: 100%;
 }
 
-/* --- Left Sidebar styling --- */
+/* --- Dynamic Home View Layout States --- */
+.dashboard-split-container.home-view .sidebar-index-container {
+    display: none;             /* Drops sidebar completely on Overview index */
+}
+
+.dashboard-split-container.home-view .main-content-wrapper {
+    width: 100%;               /* Expands main dashboard fully if layout is set to home view */
+}
+
+/* --- Left Sidebar Platform Styling --- */
 .sidebar-index-container {
-    width: 25%;
+    width: 28%;                /* Proportional scale allocation */
     background-color: #000000;
     border: 1px solid #1c2541;
     border-radius: 12px;
@@ -316,15 +243,86 @@ ul li a:hover {
     color: #4df3a9;
 }
 
-/* --- Shift Main Hub to Right via clean flex layout adjustments --- */
+/* --- Main Content Hub Box Layout (Right Side) --- */
 .main-content-wrapper {
-    width: 75%; /* Scaled cleanly next to sidebar */
+    width: 72%;                /* Balanced spacing paired next to the left sidebar */
     background-color: #000000; 
     padding: 2.5rem;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     border: 1px solid #1c2541;
-    margin: 0;
+}
+
+/* Inside Page Content Headers */
+.content-section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    color: #ffffff;
+    border-left: 5px solid #4df3a9;
+    padding-left: 0.75rem;
+}
+
+/* Code block layouts */
+.program-block {
+    background-color: #0b132b;
+    border-radius: 8px;
+    margin-bottom: 2.5rem;
+    border: 1px solid #1c2541;
+    overflow: hidden;
+}
+
+.program-header {
+    background-color: #1c2541;
+    padding: 0.85rem 1.5rem;
+    font-weight: 600;
+    color: #4df3a9;
+    font-size: 1.05rem;
+}
+
+pre {
+    padding: 1.5rem;
+    overflow-x: auto;
+    background-color: #050914; 
+    font-family: 'Courier New', Courier, monospace;
+    color: #e1e1e6;
+}
+
+code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.placeholder-text {
+    color: #a8a8b3;
+    font-style: italic;
+}
+
+.error-text {
+    color: #f75a68;
+}
+
+.nested-folder-title {
+    font-size: 1.1rem;
+    color: #4df3a9;
+    margin: 2.5rem 0 1rem 0;
+    text-transform: uppercase;
+    border-bottom: 1px dashed #1c2541;
+    padding-bottom: 0.5rem;
+}
+
+.nested-group-container {
+    padding-left: 1rem;
+    border-left: 2px dashed #1c2541;
+    margin-bottom: 2rem;
+}
+
+/* List hyperlinks styling definitions */
+ul li a {
+    color: #4df3a9;
+}
+
+ul li a:hover {
+    color: white;
 }
 
 /* Override clean markdown text color inside preview wrappers */
@@ -334,7 +332,10 @@ ul li a:hover {
     line-height: 1.7;
     padding: 1.5rem;
 }
-.markdown-body-render h1, .markdown-body-render h2, .markdown-body-render h3 {
+
+.markdown-body-render h1, 
+.markdown-body-render h2, 
+.markdown-body-render h3 {
     font-family: 'Rubik Mono One', sans-serif;
     color: #4df3a9;
     margin-top: 1.5rem;
@@ -349,11 +350,13 @@ pre[class*="language-"] {
     margin: 0 !important;
 }
 
+/* Responsive Grid Adaptations */
 @media(max-width: 992px) {
     .dashboard-split-container {
         flex-direction: column;
     }
-    .sidebar-index-container, .main-content-wrapper {
-        width: 100%;
+    .sidebar-index-container, 
+    .main-content-wrapper {
+        width: 100% !important;
     }
 }
