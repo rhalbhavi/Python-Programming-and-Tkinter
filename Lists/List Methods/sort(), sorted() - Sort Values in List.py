@@ -24,7 +24,7 @@ print("Smallest value in the list:", nums[0])  # Output: 1
 # Initialize List (unsorted)
 nums2 = [12, 43, 21, 1]
 
-# Create new sorted list without modifying the original list
+# List2 = sorted(List1) -- Create new sorted list without modifying the original list
 sorted_nums = sorted(nums2)
 
 # Print original unsorted list
