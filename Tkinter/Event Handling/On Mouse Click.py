@@ -9,9 +9,8 @@ def on_mouse_click(event):
     print(f"Mouse clicked at ({event.x}, {event.y})")
 
 label = tk.Label(root, text="Click anywhere on me", height=20)
-
 label.pack()
-
+# Bind function to label
 label.bind("<Button-1>", on_mouse_click)
 '''Output: Mouse clicked at (x, y)'''
 
