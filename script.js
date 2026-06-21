@@ -75,8 +75,14 @@ function setupInlineContentLinks() {
     });
 }
 
-// Centered master orchestration engine updating headers, contents, and left sidebar index simultaneously
+// Master orchestration engine updating headers, content spaces, and removing home layout view constraints
 function triggerContentLoad(topicKey, subtopicObj) {
+    // Strips away home-view helper tag to dynamically bring side navigation panel into frame
+    const layoutContainer = document.getElementById('main-split-layout');
+    if (layoutContainer) {
+        layoutContainer.classList.remove('home-view');
+    }
+
     subtopicTitle.textContent = `${topicKey} ➔ ${subtopicObj.name}`;
     programsContainer.innerHTML = '<p class="placeholder-text">Loading repository data...</p>';
     sidebarTreeWrapper.innerHTML = '<p class="placeholder-text">Building index layout...</p>';
@@ -108,7 +114,7 @@ function applyCustomSorting(itemsArray, rulesArray) {
 }
 
 /**
- * Enhanced dynamic content processor with real-time automatic sidebar item population.
+ * Dynamic content processor with automatic multi-level sidebar menu aggregation.
  */
 async function fetchFolderContents(folderPath, targetContainer, isSubFolder = false, orderRules = [], currentSidebarParentUL = null) {
     if (!isSubFolder) {
@@ -140,13 +146,13 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 const lowerName = item.name.toLowerCase();
                 if (lowerName.endsWith('.py') || lowerName.endsWith('.md') || lowerName.endsWith('.png')) {
                     
-                    // Create Anchor element map entry inside Left Column index
+                    // Create Anchor link index node entry inside Left Sidebar container
                     const li = document.createElement('li');
                     li.className = 'sidebar-item';
                     li.innerHTML = `<a href="#${safeId}" class="sidebar-sub-link">📄 ${displayName}</a>`;
                     currentSidebarParentUL.appendChild(li);
 
-                    // Download content and attach it right inside page section container workspace
+                    // Fetch resource content fragments and mount inside right side viewport 
                     if (lowerName.endsWith('.py') || lowerName.endsWith('.md')) {
                         await fetchAndRenderCode(item.name, item.download_url, targetContainer, safeId);
                     } else if (lowerName.endsWith('.png')) {
@@ -155,7 +161,7 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 }
             } 
             else if (item.type === 'dir') {
-                // 1. Sidebar Construction: Expandable Group Component setup
+                // 1. Sidebar Accordion Component generation
                 const masterLI = document.createElement('li');
                 masterLI.className = 'sidebar-item';
                 
@@ -166,10 +172,10 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 const subUL = document.createElement('ul');
                 subUL.className = 'sidebar-nested-sublist';
                 
-                // Add click handler to toggle slide visibility
+                // Click handler assignments to control accordion rotation states
                 headerRow.addEventListener('click', (e) => {
                     const arrow = headerRow.querySelector('.arrow-icon');
-                    arrow.classList.toggle('expanded');
+                    if (arrow) arrow.classList.toggle('expanded');
                     subUL.classList.toggle('show');
                 });
 
@@ -177,11 +183,11 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 masterLI.appendChild(subUL);
                 currentSidebarParentUL.appendChild(masterLI);
 
-                // 2. Center Content Canvas Area header component initialization
+                // 2. Main content block folder division node initialization
                 const subHeading = document.createElement('h3');
                 subHeading.className = 'nested-folder-title';
                 subHeading.id = safeId;
-                subHeading.textContent = `# ${displayName}`;
+                subHeading.textContent = `📁 ${displayName}`;
                 targetContainer.appendChild(subHeading);
 
                 const nestedGroupContainer = document.createElement('div');
@@ -190,7 +196,7 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
 
                 const nextFolderRules = nestedFolderCustomOrders[item.name] || [];
                 
-                // Fire deep subdirectory crawl tracking thread
+                // Recurse down deep directory paths
                 await fetchFolderContents(item.path, nestedGroupContainer, true, nextFolderRules, subUL);
             }
         }
@@ -207,24 +213,21 @@ async function fetchAndRenderCode(fileName, downloadUrl, containerElement, eleme
 
         const block = document.createElement('div');
         block.className = 'program-block';
-        block.id = elementId; // Explicit target matching anchor rules
+        block.id = elementId; 
 
         const header = document.createElement('div');
         header.className = 'program-header';
         header.textContent = cleanDisplayName(fileName);
         block.appendChild(header);
 
-        // NEW: Check if file type format is Markdown or Python script code asset
         if (fileName.toLowerCase().endsWith('.md')) {
             const mdWrapper = document.createElement('div');
             mdWrapper.className = 'markdown-body-render';
-            
-            // Render structured output instantly with Marked.js
             mdWrapper.innerHTML = marked.parse(textData);
             block.appendChild(mdWrapper);
         } else {
             const pre = document.createElement('pre');
-            pre.className = "language-python"; // Lock in PrismJS context classes
+            pre.className = "language-python"; 
             
             const code = document.createElement('code');
             code.className = "language-python";
@@ -233,7 +236,6 @@ async function fetchAndRenderCode(fileName, downloadUrl, containerElement, eleme
             pre.appendChild(code);
             block.appendChild(pre);
             
-            // Force PrismJS parsing layer onto newly appended asset block canvas loop
             Prism.highlightElement(code);
         }
 
@@ -252,6 +254,7 @@ function renderImageBlock(fileName, downloadUrl, containerElement, elementId) {
     block.style.flexDirection = 'column';
     block.style.gap = '1rem';
     block.style.alignItems = 'center';
+    block.style.borderRadius = '0';
 
     const header = document.createElement('div');
     header.className = 'program-header';
@@ -265,6 +268,7 @@ function renderImageBlock(fileName, downloadUrl, containerElement, elementId) {
     img.alt = fileName;
     img.style.maxWidth = '100%';
     img.style.height = 'auto';
+    img.style.borderRadius = '0';
     img.style.border = '1px solid #1c2541';
 
     block.appendChild(header);
