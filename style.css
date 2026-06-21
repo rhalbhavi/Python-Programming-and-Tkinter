@@ -211,3 +211,149 @@ ul li a {
 ul li a:hover {
   color: white;
 }
+
+.dashboard-split-container {
+    display: flex;
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* --- Left Sidebar styling --- */
+.sidebar-index-container {
+    width: 25%;
+    background-color: #000000;
+    border: 1px solid #1c2541;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+}
+
+.sidebar-title {
+    font-family: 'Rubik Mono One', sans-serif;
+    font-size: 0.95rem;
+    color: #4df3a9;
+    margin-bottom: 1.2rem;
+    border-bottom: 2px solid #1c2541;
+    padding-bottom: 0.5rem;
+}
+
+/* Accordion Sidebar Lists */
+.sidebar-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.sidebar-item {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-header-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.sidebar-header-row:hover {
+    background-color: #1c2541;
+}
+
+/* Rotation arrow animation toggles */
+.arrow-icon {
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+    display: inline-block;
+    color: #4df3a9;
+}
+
+.arrow-icon.expanded {
+    transform: rotate(90deg);
+}
+
+.sidebar-link {
+    font-size: 16px;
+    color: #a8a8b3;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.sidebar-link:hover {
+    color: #ffffff;
+}
+
+/* Nested elements underneath sidebar groups */
+.sidebar-nested-sublist {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.sidebar-nested-sublist.show {
+    display: block;
+}
+
+.sidebar-sub-link {
+    font-size: 15px;
+    color: #82828c;
+    text-decoration: none;
+    display: block;
+    padding: 0.2rem 0;
+    transition: color 0.2s ease;
+}
+
+.sidebar-sub-link:hover {
+    color: #4df3a9;
+}
+
+/* --- Shift Main Hub to Right via clean flex layout adjustments --- */
+.main-content-wrapper {
+    width: 75%; /* Scaled cleanly next to sidebar */
+    background-color: #000000; 
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid #1c2541;
+    margin: 0;
+}
+
+/* Override clean markdown text color inside preview wrappers */
+.markdown-body-render {
+    color: #e1e1e6;
+    font-family: 'Titillium Web', sans-serif;
+    line-height: 1.7;
+    padding: 1.5rem;
+}
+.markdown-body-render h1, .markdown-body-render h2, .markdown-body-render h3 {
+    font-family: 'Rubik Mono One', sans-serif;
+    color: #4df3a9;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Ensure clean display overrides on active themes */
+pre[class*="language-"] {
+    background: #050914 !important;
+    border: none !important;
+    margin: 0 !important;
+}
+
+@media(max-width: 992px) {
+    .dashboard-split-container {
+        flex-direction: column;
+    }
+    .sidebar-index-container, .main-content-wrapper {
+        width: 100%;
+    }
+}
