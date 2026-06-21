@@ -1,6 +1,6 @@
-### for i in range ###
+### for i in Range ###
 
-# For i in range(x)
+# For i in range(x):
 for i in range(6):
     print ("hello")
 
