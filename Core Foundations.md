@@ -2,6 +2,8 @@
 
 **Before diving into advanced architectures, object-oriented pipelines, or graphic layouts, it is crucial to understand the rules that govern Python's syntax, interpretation matrix, and basic data types.**
 
+---
+
 ### 🎯 What You Will Learn
 * **Python Keywords:** The protected vocabulary reserved by the compiler interpreter that defines program anatomy.
 * **Identifiers & Namespace Rules:** How variables, memory cells, functions, and modules are allocated naming strings under standard lexical syntax.
