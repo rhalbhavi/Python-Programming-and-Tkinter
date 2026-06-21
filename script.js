@@ -1,7 +1,7 @@
 const REPO_OWNER = 'rhalbhavi';
 const REPO_NAME = 'Python-Programming-and-Tkinter';
 
-// Base topics layout mapping metadata configuration
+// Primary framework configuration pairing UI layouts to curriculum folders
 const topicsData = {
     "Core Foundations": {
         mdFile: "Core Foundations.md",
@@ -48,12 +48,6 @@ const sidebarTreeWrapper = document.getElementById('sidebar-tree-wrapper');
 
 let globalRepositoryTreeFlatArray = [];
 
-// NEW: Dynamically determine the path steps backward to target the repo root cleanly
-const pathSegmentsCount = window.location.pathname.split('/').filter(Boolean).length;
-const isGitHubPages = window.location.hostname.includes('github.io');
-// Drops back exactly 4 steps out of "Project/HTML,CSS,JS/Ultimate Python Repository" to target root
-const rootPrefixPath = isGitHubPages ? `../../../../` : `../../../../`;
-
 document.addEventListener('DOMContentLoaded', async () => {
     buildDropdownMenus();
     setupInlineContentLinks();
@@ -64,9 +58,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function initializeRepositoryTreeMap() {
     try {
-        // Loads manifest from the local web directory safely
         const response = await fetch('tree_manifest.json');
-        if (!response.ok) throw new Error("Could not load tree_manifest.json");
+        if (!response.ok) throw new Error("Could not find tree_manifest.json");
         globalRepositoryTreeFlatArray = await response.json();
     } catch (err) {
         console.error("Blueprint layout generation loading exception:", err);
@@ -174,9 +167,8 @@ async function triggerParentTopicLoad(topicKey) {
         sideLI.innerHTML = `<a href="#${safeId}" class="sidebar-sub-link" style="color: #4df3a9;">📖 ${topicKey} Overview</a>`;
         rootUL.appendChild(sideLI);
 
-        const parentMdUrl = rootPrefixPath + parentObj.mdFile;
         programsContainer.innerHTML = ''; 
-        await fetchAndRenderCode(parentObj.mdFile, parentMdUrl, programsContainer, safeId);
+        await fetchAndRenderCode(parentObj.mdFile, parentObj.mdFile, programsContainer, safeId);
     } else {
         programsContainer.innerHTML = '';
     }
@@ -261,7 +253,6 @@ async function resolveAndBuildContent(folderPath, targetContainer, currentSideba
         const itemRealName = item.path.split('/').pop();
         const safeId = generateSafeElementId(item.path);
         const displayName = cleanDisplayName(itemRealName);
-        const relativeLocalPathUrl = rootPrefixPath + item.path; 
 
         if (item.type === "blob") { 
             const lowerName = itemRealName.toLowerCase();
@@ -273,21 +264,21 @@ async function resolveAndBuildContent(folderPath, targetContainer, currentSideba
                 currentSidebarUL.appendChild(li);
 
                 if (lowerName.endsWith('.py') || lowerName.endsWith('.md')) {
-                    await fetchAndRenderCode(itemRealName, relativeLocalPathUrl, targetContainer, safeId);
+                    await fetchAndRenderCode(itemRealName, item.path, targetContainer, safeId);
                 } else if (lowerName.endsWith('.png')) {
-                    renderImageBlock(itemRealName, relativeLocalPathUrl, targetContainer, safeId);
+                    renderImageBlock(itemRealName, item.path, targetContainer, safeId);
                 }
             }
         } 
         else if (item.type === "tree") { 
             const internalChildren = globalRepositoryTreeFlatArray.filter(child => child.path.startsWith(item.path + "/"));
             
+            // Single-file folder flattening mechanic
             if (internalChildren.length === 1 && internalChildren[0].type === "blob") {
                 const singleItem = internalChildren[0];
                 const singleRealName = singleItem.path.split('/').pop();
                 const singleSafeId = generateSafeElementId(singleItem.path);
                 const singleDisplayName = cleanDisplayName(singleRealName);
-                const singleRelativePath = rootPrefixPath + singleItem.path;
 
                 const li = document.createElement('li');
                 li.className = 'sidebar-item';
@@ -295,11 +286,12 @@ async function resolveAndBuildContent(folderPath, targetContainer, currentSideba
                 currentSidebarUL.appendChild(li);
 
                 if (singleRealName.toLowerCase().endsWith('.py') || singleRealName.toLowerCase().endsWith('.md')) {
-                    await fetchAndRenderCode(singleRealName, singleRelativePath, targetContainer, singleSafeId);
+                    await fetchAndRenderCode(singleRealName, singleItem.path, targetContainer, singleSafeId);
                 } else {
-                    renderImageBlock(singleRealName, singleRelativePath, targetContainer, singleSafeId);
+                    renderImageBlock(singleRealName, singleItem.path, targetContainer, singleSafeId);
                 }
             } else {
+                // Multi-program dropdown folder layout
                 const masterLI = document.createElement('li');
                 masterLI.className = 'sidebar-item';
                 
