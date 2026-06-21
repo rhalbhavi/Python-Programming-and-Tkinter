@@ -7,6 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +17,7 @@
     <div class="scanlines"></div>
 
     <header>
-        <h1><a href="index.html" style="color: #ffffff; text-decoration: none;">🐍 Ultimate Python Repository</a></h1>
+        <h1><a href="index.html" style="color: #ffffff; text-decoration: none;">Ultimate Python Repository</a></h1>
         <nav>
             <ul id="topic-navigation">
                 <li class="nav-item">
@@ -41,98 +44,30 @@
         </nav>
     </header>
 
-    <main class="main-content-wrapper">
-        <section class="content-section">
-            <h2 id="current-subtopic-title">🌟 Overview</h2>
-            
-            <div id="programs-container">
-                <p>Python is a powerful, versatile, high-level, interpreted, object-oriented programming language, driving innovation across data science, web development, and automation. Valued for its clean syntax and rapid development cycle, Python is the go-to language for readability and efficiency across almost every domain.</p>
-                <p>This repository features structured Python programs, organized by concept and module, making it ideal for learning or quick reference.</p>
-
-                <br>
-
-                <h2 id="current-subtopic-title">🚀 Real-World Applications</h2>
-                <p>Python's simplicity and massive library ecosystem make it the go-to language for diverse fields. Here are its primary applications:</p>
-                <ul>
-                    <li><strong>Artificial Intelligence & Machine Learning:</strong> Python dominates AI development with libraries like TensorFlow, PyTorch, and Scikit-learn used for building neural networks and predictive models.</li>
-                    <li><strong>Data Science & Analysis:</strong> Libraries such as Pandas, NumPy, and Matplotlib allow professionals to process, analyze, and visualize massive datasets efficiently.</li>
-                    <li><strong>Web Development:</strong> Frameworks like Django and Flask enable rapid development of secure and scalable backend web applications and APIs.</li>
-                    <li><strong>Automation & Scripting:</strong> Python is widely used to write scripts that automate repetitive tasks, manage system operations, and handle file manipulation.</li>
-                    <li><strong>Scientific Computing:</strong> Researchers use libraries like SciPy for complex mathematical computations, simulations, and engineering problems.</li>
-                </ul>
-
-                <br>
-
-                <h2 id="current-subtopic-title">📁 Sub-topics</h2>
-                <div class="nested-group-container">
-                    <p><strong>🛠️ Core Foundations</strong></p>
-                    <ul>
-                        <li><a href="#" class="page-link" data-parent="Core Foundations" data-path="Keywords and Identifiers">Keywords and Identifiers</a></li>
-                        <li><a href="#" class="page-link" data-parent="Core Foundations" data-path="Strings">Strings</a></li>
-                    </ul>
-                    <br>
-                    <p><strong>📊 Data Structures</strong></p>
-                    <ul>
-                        <li><a href="#" class="page-link" data-parent="Data Structures" data-path="Lists">Lists</a></li>
-                        <li><a href="#" class="page-link" data-parent="Data Structures" data-path="Tuples">Tuples</a></li>
-                        <li><a href="#" class="page-link" data-parent="Data Structures" data-path="Sets">Sets</a></li>
-                        <li><a href="#" class="page-link" data-parent="Data Structures" data-path="Dictionaries">Dictionaries</a></li>
-                    </ul>
-                    <br>
-                    <p><strong>🔄 Control Flow & Logic</strong></p>
-                    <ul>
-                        <li><a href="#" class="page-link" data-parent="Control Flow" data-path="If-Else-Elif">If-Else-Elif Statements</a></li>
-                        <li><a href="#" class="page-link" data-parent="Control Flow" data-path="For Loop">For Loop</a></li>
-                        <li><a href="#" class="page-link" data-parent="Control Flow" data-path="While Loop">While Loop</a></li>
-                        <li><a href="#" class="page-link" data-parent="Control Flow" data-path="Functions">Functions</a></li>
-                    </ul>
-                    <br>
-                    <p><strong>⚠️ Error Handling</strong></p>
-                    <ul>
-                        <li><a href="#" class="page-link" data-parent="Error Handling" data-path="Error Handling">Try-Except-Finally Statements</a></li>
-                    </ul>
-                    <br>
-                    <p><strong>🎨 GUI</strong></p>
-                    <ul>
-                        <li><a href="#" class="page-link" data-parent="GUI" data-path="Tkinter">Tkinter</a></li>
-                    </ul>
-                </div>
-
-                <br>
-
-                <h2 id="current-subtopic-title">⚙️ Setting up Python</h2>
-                <p>To execute Python programs on your computer, you need the Python Interpreter.</p>
-
-                <h3 class="nested-folder-title">Python Interpreter Installation and Setup</h3>
-                <ol>
-                    <li>Visit the official Python website's Downloads page: <a href="https://www.python.org/downloads/" target="_blank" style="color: #4df3a9;">https://www.python.org/downloads/</a></li>
-                    <li>Choose the correct Python version for your device.</li>
-                    <li>Click the 'Download Python' button.</li>
-                    <li>Open the downloaded file and go through the installation process. <em>(Note: On Windows, ensure you check the box to "Add Python to PATH").</em></li>
-                    <li>Run the Python IDLE application or use your preferred text editor/IDE.</li>
-                </ol>
-                
-                <p><strong>Verification:</strong> After installation, verify by running the following command in your Terminal or Command Prompt:</p>
-                <div class="program-block" style="margin-top: 0.5rem;">
-                    <pre><code>bash python --version # OR python3 --version</code></pre>
-                </div>
-                <p>You are now ready to write and execute Python programs.</p>
-
-                <h3 class="nested-folder-title">Alternative Setup: Using VS Code</h3>
-                <p>If you prefer using Visual Studio Code (VS Code), follow these additional steps for a seamless development experience:</p>
-                <ol>
-                    <li><strong>Install VS Code:</strong> Download and install VS Code from the official website.</li>
-                    <li><strong>Install the Python Extension:</strong> Open VS Code and install the official Python Extension developed by Microsoft. This extension provides features like IntelliSense, debugging, and code formatting.</li>
-                    <li><strong>Run Code:</strong> Open a Python file (.py) in VS Code and click the Run button (a small triangle icon) in the top right corner, or use the shortcut <code>Ctrl + F5</code> to execute the script in the integrated terminal.</li>
-                </ol>
-
-                <br>
-
-                <h2 id="current-subtopic-title">💬 Original Python GitHub Repository</h2>
-                <p>Visit the <a href="https://github.com/rhalbhavi/Python-Programming-and-Tkinter/" target="_blank" style="color: #4df3a9; font-weight: bold;">Python repository containing all programs on this site!</a></p>
+    <div class="dashboard-split-container">
+        
+        <aside class="sidebar-index-container" id="sidebar-table-of-contents">
+            <h3 class="sidebar-title">📋 Contents</h3>
+            <div id="sidebar-tree-wrapper">
+                <p class="placeholder-text" style="font-size: 0.95rem;">Select a topic to view its content outline map.</p>
             </div>
-        </section>
-    </main>
+        </aside>
+
+        <main class="main-content-wrapper">
+            <section class="content-section">
+                <h2 id="current-subtopic-title">🐍 Overview</h2>
+                
+                <div id="programs-container">
+                    <p>Python is a powerful, versatile, high-level, interpreted, object-oriented programming language, driving innovation across data science, web development, and automation...</p>
+                    </div>
+            </section>
+        </main>
+        
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 
     <script src="script.js"></script>
 </body>
