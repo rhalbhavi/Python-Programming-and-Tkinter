@@ -1,4 +1,6 @@
-### Local and Global Variables ###
+### Namespace ###
+  ## Namespace is a system that ensures all the names in a program are unique and can be used without any conflict.
+  ## It acts as a container or mapping that links the symbolic names you define (such as variable, function, and class names) to their corresponding objects in memory.
 
 def namespace_demo():
     a = 1
