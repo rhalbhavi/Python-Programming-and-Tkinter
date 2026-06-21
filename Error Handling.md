@@ -2,6 +2,8 @@
 
 **An unhandled error instantly crashes an application at runtime. Production code requires dedicated infrastructure designed to anticipate errors, trap faults safely, and handle clean operational failovers.**
 
+<br>
+
 ---
 
 ### 🛡️ The Structural Breakdown
