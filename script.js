@@ -21,7 +21,7 @@ const topicsData = {
     "Control Flow": {
         mdFile: "Control Flow.md",
         subtopics: [
-            { name: "If-Else-Elif Statements", path: "If-Else-Elif", preferredOrder: ["if-else", "Nested if-else", "if-else-elif"] }, 
+            { name: "If-Else-Elif Statements", path: "If-Else-Elif Statements", preferredOrder: ["if-else", "Nested if-else", "if-else-elif"] }, 
             { name: "For Loop", path: "For Loop", preferredOrder: ["General Syntax", "for Loop with break and continue statements", "Nested for Loop", "Examples", "for i in Range, List, String"] },
             { name: "While Loop", path: "While Loop", preferredOrder: ["General Syntax", "while Loop with break Statement", "Examples"] },
             { name: "Functions", path: "Functions", preferredOrder: ["Local and Global Variables.py", "Namespaces.py", "def Functions", "lambda Functions", "Recursive Functions", "Built-in Functions"] }
@@ -30,7 +30,7 @@ const topicsData = {
     "Error Handling": {
         mdFile: "Error Handling.md",
         subtopics: [
-            { name: "Try-Except-Finally Statements", path: "Error Handling", preferredOrder: ["Built-in Exceptions.png", "try-except-finally", "try-except-finally with else", "Multiple except Statements in Single except Block", "Error Handling"] }
+            { name: "Try-Except-Finally Statements", path: "Try-Except-Finally Statements", preferredOrder: ["Built-in Exceptions.png", "try-except-finally", "try-except-finally with else", "Multiple except Statements in Single except Block", "Error Handling"] }
         ]
     },
     "GUI": {
