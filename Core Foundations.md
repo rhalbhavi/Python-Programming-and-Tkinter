@@ -2,6 +2,8 @@
 
 **Before diving into advanced architectures, object-oriented pipelines, or graphic layouts, it is crucial to understand the rules that govern Python's syntax, interpretation matrix, and basic data types.**
 
+<br>
+
 ---
 
 ### 🎯 What You Will Learn
