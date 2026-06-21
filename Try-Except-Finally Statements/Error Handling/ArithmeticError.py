@@ -1,4 +1,4 @@
-### Try-Except-Finally - Arithmetic Error ###
+### Try-Except-Finally - ArithmeticError ###
 
 try:
     b = int(input("Enter the value of the denominator: "))
