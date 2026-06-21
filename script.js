@@ -1,7 +1,7 @@
 const REPO_OWNER = 'rhalbhavi';
 const REPO_NAME = 'Python-Programming-and-Tkinter';
 
-// Content Layout map linking the navbar buttons to repository folders
+// Base topics layout mapping metadata configuration
 const topicsData = {
     "Core Foundations": {
         mdFile: "Core Foundations.md",
@@ -46,28 +46,30 @@ const subtopicTitle = document.getElementById('current-subtopic-title');
 const programsContainer = document.getElementById('programs-container');
 const sidebarTreeWrapper = document.getElementById('sidebar-tree-wrapper');
 
-// Global cache storage array for the statically pre-compiled map data
 let globalRepositoryTreeFlatArray = [];
+
+// NEW: Dynamically determine the path steps backward to target the repo root cleanly
+const pathSegmentsCount = window.location.pathname.split('/').filter(Boolean).length;
+const isGitHubPages = window.location.hostname.includes('github.io');
+// Drops back exactly 4 steps out of "Project/HTML,CSS,JS/Ultimate Python Repository" to target root
+const rootPrefixPath = isGitHubPages ? `../../../../` : `../../../../`;
 
 document.addEventListener('DOMContentLoaded', async () => {
     buildDropdownMenus();
     setupInlineContentLinks();
     setupParentTopicLinks();
-    
-    // Warm up layout memory instantly with 0 API cost via the local manifest file asset
     await initializeRepositoryTreeMap();
-    
     checkUrlHashRoute();
 });
 
 async function initializeRepositoryTreeMap() {
     try {
-        const cdnManifestUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@master/tree_manifest.json`;
-        const response = await fetch(cdnManifestUrl);
-        if (!response.ok) throw new Error("Could not load tree_manifest.json from root.");
+        // Loads manifest from the local web directory safely
+        const response = await fetch('tree_manifest.json');
+        if (!response.ok) throw new Error("Could not load tree_manifest.json");
         globalRepositoryTreeFlatArray = await response.json();
     } catch (err) {
-        console.error("Manifest compilation failure:", err);
+        console.error("Blueprint layout generation loading exception:", err);
     }
 }
 
@@ -95,10 +97,8 @@ function setupInlineContentLinks() {
             e.preventDefault();
             const parentTopic = link.getAttribute('data-parent');
             let targetPath = link.getAttribute('data-path');
-            
             if (targetPath === "If-Else-Elif") targetPath = "If-Else-Elif Statements";
             if (targetPath === "Error Handling") targetPath = "Try-Except-Finally Statements";
-            
             window.location.hash = `${encodeURIComponent(parentTopic)}:${encodeURIComponent(targetPath)}`;
         });
     });
@@ -124,13 +124,11 @@ async function checkUrlHashRoute() {
         return; 
     }
 
-    // Interceptor: Prevents hyperlink latency by letting the layout render fully before attempting scroll jumps
     if (currentHash.startsWith('section_')) {
         const element = document.getElementById(currentHash);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
-            // Delay briefly if code containers are still loading in from the CDN thread pipeline
             setTimeout(() => {
                 const retryElement = document.getElementById(currentHash);
                 if (retryElement) retryElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -176,7 +174,7 @@ async function triggerParentTopicLoad(topicKey) {
         sideLI.innerHTML = `<a href="#${safeId}" class="sidebar-sub-link" style="color: #4df3a9;">📖 ${topicKey} Overview</a>`;
         rootUL.appendChild(sideLI);
 
-        const parentMdUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@master/${parentObj.mdFile}`;
+        const parentMdUrl = rootPrefixPath + parentObj.mdFile;
         programsContainer.innerHTML = ''; 
         await fetchAndRenderCode(parentObj.mdFile, parentMdUrl, programsContainer, safeId);
     } else {
@@ -263,10 +261,9 @@ async function resolveAndBuildContent(folderPath, targetContainer, currentSideba
         const itemRealName = item.path.split('/').pop();
         const safeId = generateSafeElementId(item.path);
         const displayName = cleanDisplayName(itemRealName);
-        const cdnUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@master/${encodeURIComponent(item.path)}`;
+        const relativeLocalPathUrl = rootPrefixPath + item.path; 
 
         if (item.type === "blob") { 
-            // Standalone File Layout Node Handler
             const lowerName = itemRealName.toLowerCase();
             if (lowerName.endsWith('.py') || lowerName.endsWith('.md') || lowerName.endsWith('.png')) {
                 
@@ -276,23 +273,21 @@ async function resolveAndBuildContent(folderPath, targetContainer, currentSideba
                 currentSidebarUL.appendChild(li);
 
                 if (lowerName.endsWith('.py') || lowerName.endsWith('.md')) {
-                    await fetchAndRenderCode(itemRealName, cdnUrl, targetContainer, safeId);
+                    await fetchAndRenderCode(itemRealName, relativeLocalPathUrl, targetContainer, safeId);
                 } else if (lowerName.endsWith('.png')) {
-                    renderImageBlock(itemRealName, cdnUrl, targetContainer, safeId);
+                    renderImageBlock(itemRealName, relativeLocalPathUrl, targetContainer, safeId);
                 }
             }
         } 
         else if (item.type === "tree") { 
-            // Query lookahead to identify how many physical file assets live inside this folder level
             const internalChildren = globalRepositoryTreeFlatArray.filter(child => child.path.startsWith(item.path + "/"));
             
-            // CONDITION: If subfolder houses exactly one solitary program asset, flatten it and use the paper icon
             if (internalChildren.length === 1 && internalChildren[0].type === "blob") {
                 const singleItem = internalChildren[0];
                 const singleRealName = singleItem.path.split('/').pop();
                 const singleSafeId = generateSafeElementId(singleItem.path);
                 const singleDisplayName = cleanDisplayName(singleRealName);
-                const singleCdnUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@master/${encodeURIComponent(singleItem.path)}`;
+                const singleRelativePath = rootPrefixPath + singleItem.path;
 
                 const li = document.createElement('li');
                 li.className = 'sidebar-item';
@@ -300,12 +295,11 @@ async function resolveAndBuildContent(folderPath, targetContainer, currentSideba
                 currentSidebarUL.appendChild(li);
 
                 if (singleRealName.toLowerCase().endsWith('.py') || singleRealName.toLowerCase().endsWith('.md')) {
-                    await fetchAndRenderCode(singleRealName, singleCdnUrl, targetContainer, singleSafeId);
+                    await fetchAndRenderCode(singleRealName, singleRelativePath, targetContainer, singleSafeId);
                 } else {
-                    renderImageBlock(singleRealName, singleCdnUrl, targetContainer, singleSafeId);
+                    renderImageBlock(singleRealName, singleRelativePath, targetContainer, singleSafeId);
                 }
             } else {
-                // CONDITION: If subfolder houses multiple files, keep the standard dropdown folder icon logic
                 const masterLI = document.createElement('li');
                 masterLI.className = 'sidebar-item';
                 
@@ -336,7 +330,6 @@ async function resolveAndBuildContent(folderPath, targetContainer, currentSideba
                 nestedGroupContainer.className = 'nested-group-container';
                 targetContainer.appendChild(nestedGroupContainer);
 
-                // Recursively drill down inside multi-file subfolders
                 await resolveAndBuildContent(item.path, nestedGroupContainer, subUL, []);
             }
         }
