@@ -6,7 +6,7 @@ def greet(name):
 
 greet("Riya")
 
-# print docstrings
+# Print docstrings
 print(greet.__doc__)
 
 '''
