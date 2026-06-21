@@ -3,7 +3,7 @@
 # Initialize List
 List1 = ["carrot", "potato", "lettuce", "beans", "corn"]
 
-# Add/append a value to the list
+# List.append(value) - Add/append a value to the list
 List1.append("capsicum")
 
 # Print updated list
