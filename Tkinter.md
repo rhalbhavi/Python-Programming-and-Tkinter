@@ -2,6 +2,8 @@
 
 **Tkinter is the standard built-in GUI library shipped directly with core Python. It provides a lightweight, accessible wrapper over the Tk cross-platform toolkit, allowing developers to create standalone graphic apps and desktop control centers.**
 
+<br>
+
 ---
 
 ### 🧱 Core Components
