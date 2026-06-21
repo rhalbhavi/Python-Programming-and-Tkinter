@@ -1,6 +1,5 @@
-### Set ###
-
-# Unordered collection of unique items
+### Initializing Set ###
+  # Set: Unordered collection of unique items
   # Discards duplicate/repeated items
   # Values in a set can be of different types - integer, string, tuple, boolean, etc.
 
