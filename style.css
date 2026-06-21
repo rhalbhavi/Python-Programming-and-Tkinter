@@ -7,8 +7,9 @@
 
 body {
     font-family: 'Titillium Web', sans-serif;
-    background-color: #0b132b; /* Dark Blue Website Background */
-    color: #ffffff;            /* Global Text White */
+    font-size: 18px;
+    background-color: #0b132b;
+    color: #ffffff;
     line-height: 1.6;
     position: relative;
     min-height: 100vh;
