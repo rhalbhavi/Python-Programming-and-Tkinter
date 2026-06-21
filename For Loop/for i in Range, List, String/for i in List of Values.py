@@ -1,7 +1,9 @@
-### for i in range ###
+### for i in List of Values ###
 
-# for i in list of values
+# Initialize List with values
 fruits = ['mango', 'orange', 'apple', 'banana']
+
+# for i in List:
 for i in fruits:
     print (i)
 
