@@ -21,7 +21,7 @@ const topicsData = {
     "Control Flow": {
         mdFile: "Control Flow.md",
         subtopics: [
-            { name: "If-Else-Elif Statements", path: "If-Else-Elif", preferredOrder: ["if-else", "Nested if-else", "if-else-elif"] }, 
+            { name: "If-Else-Elif Statements", path: "If-Else-Elif Statements", preferredOrder: ["if-else", "Nested if-else", "if-else-elif"] }, 
             { name: "For Loop", path: "For Loop", preferredOrder: ["General Syntax", "for Loop with break and continue statements", "Nested for Loop", "Examples", "for i in Range, List, String"] },
             { name: "While Loop", path: "While Loop", preferredOrder: ["General Syntax", "while Loop with break Statement", "Examples"] },
             { name: "Functions", path: "Functions", preferredOrder: ["Local and Global Variables.py", "Namespaces.py", "def Functions", "lambda Functions", "Recursive Functions", "Built-in Functions"] }
@@ -30,7 +30,7 @@ const topicsData = {
     "Error Handling": {
         mdFile: "Error Handling.md",
         subtopics: [
-            { name: "Try-Except-Finally Statements", path: "Error Handling", preferredOrder: ["Built-in Exceptions.png", "try-except-finally", "try-except-finally with else", "Multiple except Statements in Single except Block", "Error Handling"] }
+            { name: "Try-Except-Finally Statements", path: "Try-Except-Finally Statements", preferredOrder: ["Built-in Exceptions.png", "try-except-finally", "try-except-finally with else", "Multiple except Statements in Single except Block", "Error Handling"] }
         ]
     },
     "GUI": {
@@ -56,14 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
     buildDropdownMenus();
     setupInlineContentLinks();
     setupParentTopicLinks();
-    
-    // Parse current URL state on application mount to persist layout positions
     checkUrlHashRoute();
 });
 
 function buildDropdownMenus() {
-    const dropdownContainers = document.querySelectorAll('.dropdown-menu');
-    dropdownContainers.forEach(menu => {
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
         const topicKey = menu.getAttribute('data-topic');
         const subtopics = topicsData[topicKey].subtopics || [];
 
@@ -87,7 +84,6 @@ function setupInlineContentLinks() {
             e.preventDefault();
             const parentTopic = link.getAttribute('data-parent');
             const targetPath = link.getAttribute('data-path');
-            
             window.location.hash = `${encodeURIComponent(parentTopic)}:${encodeURIComponent(targetPath)}`;
         });
     });
@@ -102,24 +98,20 @@ function setupParentTopicLinks() {
     });
 }
 
-// Updates browser page tab title dynamically
 function updateBrowserTabTitle(viewName) {
     document.title = `${viewName} | 🐍 Ultimate Python Repository`;
 }
 
-// Router Function that intercepts window state parameters on startup or hash shifts
 async function checkUrlHashRoute() {
     const currentHash = window.location.hash.replace('#', '');
     if (!currentHash) {
-        document.title = "Ultimate Python Repository"; // Fallback home title
+        document.title = "Ultimate Python Repository";
         return; 
     }
 
     if (currentHash.startsWith('section_')) {
-        const structuralElement = document.getElementById(currentHash);
-        if (structuralElement) {
-            structuralElement.scrollIntoView({ behavior: 'smooth' });
-        }
+        const element = document.getElementById(currentHash);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
         return;
     }
 
@@ -135,21 +127,17 @@ async function checkUrlHashRoute() {
         await triggerParentTopicLoad(topicKey);
     } else {
         const sub = topicsData[topicKey].subtopics.find(s => s.path === routeTarget);
-        if (sub) {
-            await triggerContentLoad(topicKey, sub);
-        }
+        if (sub) await triggerContentLoad(topicKey, sub);
     }
 }
 
-// Handle scenarios where users use browser navigation controls manually
 window.addEventListener('hashchange', checkUrlHashRoute);
 
 async function triggerParentTopicLoad(topicKey) {
     updateBrowserTabTitle(topicKey);
-
     document.getElementById('main-split-layout').classList.remove('home-view');
     subtopicTitle.textContent = `${topicKey} (Full Overview)`;
-    programsContainer.innerHTML = '<p class="placeholder-text">Loading multi-tier parent repository streams...</p>';
+    programsContainer.innerHTML = '<p class="placeholder-text">Loading repository assets through CDN channels...</p>';
     sidebarTreeWrapper.innerHTML = '';
 
     const parentObj = topicsData[topicKey];
@@ -159,13 +147,12 @@ async function triggerParentTopicLoad(topicKey) {
 
     if (parentObj.mdFile) {
         const safeId = generateSafeElementId(parentObj.mdFile);
-        
         const sideLI = document.createElement('li');
         sideLI.className = 'sidebar-item';
         sideLI.innerHTML = `<a href="#${safeId}" class="sidebar-sub-link" style="color: #4df3a9;">📖 ${topicKey} Overview</a>`;
         rootUL.appendChild(sideLI);
 
-        const parentMdUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/master/${parentObj.mdFile}`;
+        const parentMdUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@master/${parentObj.mdFile}`;
         programsContainer.innerHTML = ''; 
         await fetchAndRenderCode(parentObj.mdFile, parentMdUrl, programsContainer, safeId);
     } else {
@@ -174,7 +161,6 @@ async function triggerParentTopicLoad(topicKey) {
 
     for (const sub of parentObj.subtopics) {
         const parentSafeId = generateSafeElementId(sub.path);
-
         const masterLI = document.createElement('li');
         masterLI.className = 'sidebar-item';
         masterLI.style.marginTop = "1rem";
@@ -202,11 +188,10 @@ async function triggerParentTopicLoad(topicKey) {
 
 async function triggerContentLoad(topicKey, subtopicObj) {
     updateBrowserTabTitle(subtopicObj.name);
-
     document.getElementById('main-split-layout').classList.remove('home-view');
     subtopicTitle.textContent = `${topicKey} ➔ ${subtopicObj.name}`;
-    programsContainer.innerHTML = '<p class="placeholder-text">Loading repository data...</p>';
-    sidebarTreeWrapper.innerHTML = '<p class="placeholder-text">Building index layout...</p>';
+    programsContainer.innerHTML = '<p class="placeholder-text">Loading repository data via CDN pipeline...</p>';
+    sidebarTreeWrapper.innerHTML = '<p class="placeholder-text">Building content hierarchy map...</p>';
     
     await fetchFolderContents(subtopicObj.path, programsContainer, false, subtopicObj.preferredOrder || []);
 }
@@ -233,20 +218,14 @@ function applyCustomSorting(itemsArray, rulesArray) {
     });
 }
 
+// RATE-LIMIT PROOF ENGINE: Bypasses api.github.com tree constraints cleanly via proxy parsing
 async function fetchFolderContents(folderPath, targetContainer, isSubFolder = false, orderRules = [], currentSidebarParentUL = null) {
     if (!isSubFolder) {
         targetContainer.innerHTML = '';
         sidebarTreeWrapper.innerHTML = '';
     }
 
-    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${encodeURIComponent(folderPath)}`;
-
     try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`GitHub status: ${response.status}`);
-        const rawContents = await response.json();
-        const sortedContents = applyCustomSorting(rawContents, orderRules);
-
         if (!isSubFolder) {
             const rootUL = document.createElement('ul');
             rootUL.className = 'sidebar-list';
@@ -254,9 +233,31 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
             currentSidebarParentUL = rootUL;
         }
 
+        // 1. Target repository HTML structure index scraping via public access proxies
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://github.com/${REPO_OWNER}/${REPO_NAME}/tree/master/${folderPath}`)}`;
+        const response = await fetch(proxyUrl);
+        const data = await response.json();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html');
+        const linkRows = doc.querySelectorAll('a.Link--primary');
+        
+        let extractedItems = [];
+        linkRows.forEach(row => {
+            const name = row.textContent.trim();
+            if (name && !name.startsWith('.') && name !== "Go to file") {
+                const isFile = row.href.includes('/blob/master/');
+                extractedItems.push({ name: name, type: isFile ? 'file' : 'dir', path: `${folderPath}/${name}` });
+            }
+        });
+
+        // 2. Format files according to custom layout specification rules
+        const sortedContents = applyCustomSorting(extractedItems, orderRules);
+        
         for (const item of sortedContents) {
             const safeId = generateSafeElementId(item.path);
             const displayName = cleanDisplayName(item.name);
+            const cdnUrl = `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@master/${encodeURIComponent(item.path)}`;
 
             if (item.type === 'file') {
                 const lowerName = item.name.toLowerCase();
@@ -268,13 +269,12 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                     currentSidebarParentUL.appendChild(li);
 
                     if (lowerName.endsWith('.py') || lowerName.endsWith('.md')) {
-                        await fetchAndRenderCode(item.name, item.download_url, targetContainer, safeId);
+                        await fetchAndRenderCode(item.name, cdnUrl, targetContainer, safeId);
                     } else if (lowerName.endsWith('.png')) {
-                        renderImageBlock(item.name, item.download_url, targetContainer, safeId);
+                        renderImageBlock(item.name, cdnUrl, targetContainer, safeId);
                     }
                 }
-            } 
-            else if (item.type === 'dir') {
+            } else if (item.type === 'dir') {
                 const masterLI = document.createElement('li');
                 masterLI.className = 'sidebar-item';
                 
@@ -285,7 +285,7 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
                 const subUL = document.createElement('ul');
                 subUL.className = 'sidebar-nested-sublist';
                 
-                headerRow.addEventListener('click', (e) => {
+                headerRow.addEventListener('click', () => {
                     const arrow = headerRow.querySelector('.arrow-icon');
                     if (arrow) arrow.classList.toggle('expanded');
                     subUL.classList.toggle('show');
@@ -310,7 +310,7 @@ async function fetchFolderContents(folderPath, targetContainer, isSubFolder = fa
             }
         }
     } catch (error) {
-        console.error(error);
+        console.error("Proxy routing fallback error:", error);
     }
 }
 
