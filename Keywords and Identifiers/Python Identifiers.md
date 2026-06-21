@@ -1,8 +1,8 @@
 ## 📌 Identifiers in Python are names used to identify a variable, function, class, module, or other object. 
 
-### An identifier starts with a letter (A-Z or a-z) or an underscore (_) followed by zero or more letters, underscores, and digits (0-9).
+**An identifier starts with a letter (A-Z or a-z) or an underscore (_) followed by zero or more letters, underscores, and digits (0-9).**
 
-#### Python is case-sensitive, meaning `myVariable` and `myvariable` are treated as two entirely different identifiers.
+**Python is case-sensitive, meaning `myVariable` and `myvariable` are treated as two entirely different identifiers.**
 
 ---
 
