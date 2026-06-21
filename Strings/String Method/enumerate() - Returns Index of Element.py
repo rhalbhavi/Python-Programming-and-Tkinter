@@ -1,8 +1,11 @@
 ### enumerate() - Returns Index of Element in String ###
 
 ## Display index along with element
+
+# Initialize String
 fruits = ['apple', 'orange', 'mango']
-# enumerate() operator
+
+# for item in enumerate(String)
 for item in enumerate(fruits):
     print("Index:", item[0], "Fruit", item[1])
 
