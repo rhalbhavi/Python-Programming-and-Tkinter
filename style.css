@@ -202,3 +202,7 @@ code {
     border-left: 2px dashed #1c2541;
     margin-bottom: 2rem;
 }
+
+li {
+    color: #4df3a9;
+}
