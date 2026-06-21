@@ -203,6 +203,11 @@ code {
     margin-bottom: 2rem;
 }
 
-li {
-    color: #4df3a9;
+/* List hyperlinks */
+ul li a {
+  color: #4df3a9;
+}
+
+ul li a:hover {
+  color: white;
 }
