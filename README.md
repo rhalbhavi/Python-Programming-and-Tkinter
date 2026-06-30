@@ -25,26 +25,26 @@ Python's simplicity and massive library ecosystem make it the go-to language for
 ## 📁 Sub-topics
 
 ### 🛠️ Core Foundations
-* [Keywords and Identifiers](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Keywords%20and%20Identifiers)
-* [Strings](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Strings)
+* [Keywords and Identifiers](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/Keywords%20and%20Identifiers)
+* [Strings](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/Strings)
 
 ### 📊 Data Structures
-* [Lists](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Lists)
-* [Tuples](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Tuples)
-* [Sets](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Sets)
-* [Dictionaries](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Dictionaries)
+* [Lists](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/Lists)
+* [Tuples](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/Tuples)
+* [Sets](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/Sets)
+* [Dictionaries](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/Dictionaries)
 
 ### 🔄 Control Flow & Logic
-* [If-Else-Elif Statements](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/If-Else-Elif%20Statements)
-* [For Loop](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/For%20Loop)
-* [While Loop](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/While%20Loop)
-* [Functions](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Functions)
+* [If-Else-Elif Statements](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/If-Else-Elif%20Statements)
+* [For Loop](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/For%20Loop)
+* [While Loop](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/While%20Loop)
+* [Functions](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/Functions)
 
 ### ⚠️ Error Handling
-* [Try-Except-Finally Statements](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Try-Except-Finally%20Statements)
+* [Try-Except-Finally Statements](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/Try-Except-Finally%20Statements)
 
 ### 🎨 GUI
-* [Tkinter](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Tkinter)
+* [Tkinter](https://github.com/rhalbhavi/Python-Programming-and-Tkinter/tree/main/Tkinter)
 
 ---
 
@@ -54,7 +54,7 @@ To get a local copy of this repository, follow these steps:
 
 1. **Run the `git clone` command** to make a copy of this repository on your local machine:
     ```bash
-    git clone [https://github.com/riyahal/Python-Programming-and-Tkinter](https://github.com/riyahal/Python-Programming-and-Tkinter)
+    git clone [https://github.com/rhalbhavi/Python-Programming-and-Tkinter](https://github.com/rhalbhavi/Python-Programming-and-Tkinter)
     ```
 2. **Navigate to the folder:**
     ```bash
@@ -98,9 +98,3 @@ If you prefer using **Visual Studio Code (VS Code)**, follow these additional st
 1. **Install VS Code:** Download and install VS Code from the [official website](https://code.visualstudio.com/).
 2. **Install the Python Extension:** Open VS Code and install the official **Python Extension** developed by Microsoft. This extension provides features like IntelliSense, debugging, and code formatting.
 3. **Run Code:** Open a Python file (`.py`) in VS Code and click the **Run** button (a small triangle icon) in the top right corner, or use the shortcut `Ctrl + F5` to execute the script in the integrated terminal.
-
----
-
-## 💬 Dicussions
-
-Visit the [Discussions page](https://github.com/3riy/Python-Basics/discussions) to share any comments or remarks you may have regarding this repo!
