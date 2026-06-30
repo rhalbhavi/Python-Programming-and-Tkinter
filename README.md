@@ -54,7 +54,7 @@ To get a local copy of this repository, follow these steps:
 
 1. **Run the `git clone` command** to make a copy of this repository on your local machine:
     ```bash
-    git clone https://github.com/rhalbhavi/Python-Programming-and-Tkinter
+    git clone https://github.com/rhalbhavi/Python-Programming-and-Tkinter.git
     ```
 2. **Navigate to the folder:**
     ```bash
