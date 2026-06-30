@@ -25,26 +25,26 @@ Python's simplicity and massive library ecosystem make it the go-to language for
 ## 📁 Sub-topics
 
 ### 🛠️ Core Foundations
-* [Keywords and Identifiers](https://github.com/3riy/Python/tree/main/Keywords%20and%20Identifiers)
-* [Strings](https://github.com/3riy/Python/tree/main/Strings)
+* [Keywords and Identifiers](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Keywords%20and%20Identifiers)
+* [Strings](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Strings)
 
 ### 📊 Data Structures
-* [Lists](https://github.com/3riy/Python/tree/main/Lists)
-* [Tuples](https://github.com/3riy/Python/tree/main/Tuples)
-* [Sets](https://github.com/3riy/Python/tree/main/Sets)
-* [Dictionaries](https://github.com/3riy/Python/tree/main/Dictionaries)
+* [Lists](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Lists)
+* [Tuples](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Tuples)
+* [Sets](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Sets)
+* [Dictionaries](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Dictionaries)
 
 ### 🔄 Control Flow & Logic
-* [If-Else-Elif Statements](https://github.com/3riy/Python/tree/main/If-Else-Elif%20Statements)
-* [For Loop](https://github.com/3riy/Python/tree/main/For%20Loop)
-* [While Loop](https://github.com/3riy/Python/tree/main/While%20Loop)
-* [Functions](https://github.com/3riy/Python/tree/main/Functions)
+* [If-Else-Elif Statements](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/If-Else-Elif%20Statements)
+* [For Loop](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/For%20Loop)
+* [While Loop](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/While%20Loop)
+* [Functions](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Functions)
 
 ### ⚠️ Error Handling
-* [Try-Except-Finally Statements](https://github.com/3riy/Python/tree/main/Try-Except-Finally%20Statements)
+* [Try-Except-Finally Statements](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Try-Except-Finally%20Statements)
 
 ### 🎨 GUI
-* [Tkinter](https://github.com/3riy/Python/tree/main/Tkinter)
+* [Tkinter](https://github.com/riyahal/Python-Programming-and-Tkinter/tree/main/Tkinter)
 
 ---
 
@@ -54,7 +54,7 @@ To get a local copy of this repository, follow these steps:
 
 1. **Run the `git clone` command** to make a copy of this repository on your local machine:
     ```bash
-    git clone [https://github.com/rh3nium/Python](https://github.com/rh3nium/Python)
+    git clone [https://github.com/riyahal/Python-Programming-and-Tkinter](https://github.com/riyahal/Python-Programming-and-Tkinter)
     ```
 2. **Navigate to the folder:**
     ```bash
